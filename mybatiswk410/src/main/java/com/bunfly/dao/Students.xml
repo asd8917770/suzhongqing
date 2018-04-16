@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.bunfly.dao.Students">
+  
+  <!-- <resultMap type="" id=""></resultMap> -->
+ <!--  <resultMap type="student" id="studentAndclasses">
+  	<id property="id" column="id"/>
+  	<result property="name" column="name"/>
+  	<association property="classes" javaType="classes" foreignColumn="id">
+  		<id property="id" column="id"/>
+  		<result property="name" column="name"/>
+  	</association>
+  </resultMap> -->
+  
+  <resultMap type="student" id="student1">
+  	<id property="id" column="sid"/>
+  	<result property="name" column="sname"/>
+  	<association property="classes" column="cid" select="com.bunfly.dao.Classess.getClass">
+  	
+  	</association>
+  </resultMap>
+  <select id="getUserById" resultMap="student1">
+  	select *  from student where sid=#{id}
+  </select> 
+  
+  
+  <resultMap type="sutdent" id="student2">
+  <id property="id" column="sid"/>
+  <result property="name" column="sname"/>
+  </resultMap>
+  <select id="getAllstudent" resultMap="student2">
+  	select * from student
+  </select>
+  </mapper>
