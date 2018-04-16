@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- 
+  	namespace 命名空间用来区分不同的mapper,
+  	避免查询id在不同mapper的冲突
+  	通常使用接口的全路径作为namespace
+   -->
+<mapper namespace="com.bunfly.dao.UserDao">
+  <!-- 
+   根据用户编号获得用户对象的查询语句
+   id 查询语句表示，和对应的接口方法保持一致
+   parameterType 参数类型  parameterMap 已经废弃，不要使用
+   resultType 结果类型
+   #{id} OGNL  传参表达式
+   -->
+   <!-- 查询，除了查询，其它的都没有resultType返回的结果类型  -->
+    <resultMap type="com.bunfly.entity.User" id="usermap">
+ 	 <id column="id" property="id"/>
+ 	 <result column="username" property="username"/>
+ 	 <result column="password" property="password"/>
+ 	 <result column="sex" property="sex"/>
+ 	 </resultMap>
+  <select id="getUserById" parameterType="int" resultMap="usermap">
+  		select * from user where id =#{id}
+  </select>
+  <select id="getLikeZhang" resultType="user">
+ 		select * from user where username like '${username}%'
+ 	</select>
+  <!-- 增加 -->
+  <insert id="insert" parameterType="com.bunfly.entity.User">
+    insert into user values(#{id},#{username},#{password},#{sex})
+    <selectKey resultType="Integer" keyColumn="id" keyProperty="id" order="AFTER">
+    	SELECT LAST_INSERT_ID();
+    </selectKey>
+  </insert>
+  <!-- 删除 -->
+  <delete id="delete" parameterType="int">
+    delete from user where id=#{id}
+  </delete>
+  <!-- 修改 -->
+  <update id="update" parameterType="com.bunfly.entity.User" >
+    update user set id=#{id},username=#{username},password=#{password},sex=#{sex} where id=#{id}
+  </update>
+  <select id="findAll" resultType="user">
+  	select * from user;
+  </select>
+</mapper>

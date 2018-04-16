@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--  
+	引入属性文件,可以通过resource 引入外部属性文件
+	也可以通过属性property 来设置属性
+-->
+<properties resource="jdbc.properties">
+	<property name="driver.encoding" value=" UTF-8"/>
+</properties>
+<!-- 全局配置文件设置，用来设置mybatis的全局配置，他会影响整个mybatis-->
+<settings>
+	<!-- 懒加载 -->
+	<setting name="lazyLoadingEnabled" value="true" />
+	<setting name="aggressiveLazyLoading" value="false" />
+</settings>
+<!--别名，用来设置mapper对应自己开发的pojo的别名，减少代码量-->
+<typeAliases>
+	<typeAlias type="com.bunfly.entity.User" alias="user"/>
+</typeAliases>
+<!-- 
+ mybatis环境设置 ，environments 和 environment 两个默认值和id 需要保持一致
+ transactionManager 事物管理
+ dataSource 数据源
+ -->
+  <environments default="development">
+  	<environment id="development">
+  		<transactionManager type="JDBC" />
+  		<dataSource type="POOLED">
+  			<property name="driver" value="${db.driver}"/>
+  			<property name="url" value="${db.url}"/>
+  			<property name="username" value="${db.username}"/>
+  			<property name="password" value="${db.password}"/>
+  		</dataSource>
+  	</environment>
+  </environments>
+  <!-- mapper 映射文件 -->
+  <mappers>
+  	<mapper class="com.bunfly.dao.UserDao"/>
+  	
+  </mappers>
+</configuration>
